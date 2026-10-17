@@ -8,7 +8,11 @@ app.innerHTML = `
   <header class="site-header">
     <div class="site-header__inner">
       <a class="logo" href="#top">Тотьмотики</a>
-      <nav class="nav" aria-label="Основная навигация">
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+        <span class="nav-toggle__bars" aria-hidden="true"></span>
+        <span class="visually-hidden">Меню</span>
+      </button>
+      <nav class="nav" id="site-nav" aria-label="Основная навигация">
         <a href="#about">О них</a>
         <a href="#heroes">Герои</a>
         <a href="#world">Мир</a>
@@ -156,6 +160,9 @@ if (!prefersReduced) {
 }
 
 const header = app.querySelector('.site-header');
+const navToggle = app.querySelector('.nav-toggle');
+const nav = app.querySelector('#site-nav');
+
 window.addEventListener(
   'scroll',
   () => {
@@ -163,3 +170,21 @@ window.addEventListener(
   },
   { passive: true },
 );
+
+const setNavOpen = (open) => {
+  header.classList.toggle('site-header--nav-open', open);
+  navToggle.setAttribute('aria-expanded', String(open));
+  document.body.classList.toggle('nav-open', open);
+};
+
+navToggle.addEventListener('click', () => {
+  setNavOpen(!header.classList.contains('site-header--nav-open'));
+});
+
+nav.querySelectorAll('a').forEach((link) => {
+  link.addEventListener('click', () => setNavOpen(false));
+});
+
+window.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape') setNavOpen(false);
+});
