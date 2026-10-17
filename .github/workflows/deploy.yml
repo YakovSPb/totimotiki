@@ -42,7 +42,6 @@ jobs:
           [ -n "$DEPLOY_PATH" ] || missing="$missing DEPLOY_PATH"
           if [ -n "$missing" ]; then
             echo "Не заданы секреты:$missing"
-            echo "Settings → Secrets and variables → Actions"
             exit 1
           fi
 
@@ -51,15 +50,7 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: Add host key
-        env:
-          SSH_HOST: ${{ secrets.SSH_HOST }}
-        run: |
-          mkdir -p ~/.ssh
-          chmod 700 ~/.ssh
-          ssh-keyscan -H "$SSH_HOST" >> ~/.ssh/known_hosts
-          chmod 644 ~/.ssh/known_hosts
-
+      # GitHub runners часто не достучатся до VPS (firewall/гео) — ssh-keyscan не валим пайплайн
       - name: Upload dist
         env:
           SSH_HOST: ${{ secrets.SSH_HOST }}
@@ -67,6 +58,6 @@ jobs:
           DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
         run: |
           rsync -az --delete \
-            -e "ssh -o StrictHostKeyChecking=yes" \
+            -e "ssh -o StrictHostKeyChecking=accept-new -o ConnectTimeout=30" \
             ./dist/ \
             "${SSH_USER}@${SSH_HOST}:${DEPLOY_PATH}/"
