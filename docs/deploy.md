@@ -1,76 +1,58 @@
 # Деплой и домен
 
+Схема как у **diabal**: Cloudflare только DNS (серое облако) → VPS `168.113.158.146` → nginx + Let’s Encrypt.
+
+Тот же сервер, что `diabal.ru` / `memo.diabal.ru`.
+
 ## Секреты GitHub Actions
 
 Репозиторий: [YakovSPb/totimotiki](https://github.com/YakovSPb/totimotiki)
 
-**Settings → Secrets and variables → Actions** — добавить:
-
 | Secret | Значение |
 |--------|----------|
-| `SSH_PRIVATE_KEY` | Содержимое приватного ключа (`~/.ssh/id_ed25519`), целиком, включая `BEGIN`/`END` |
-| `SSH_HOST` | `31.177.83.170` |
+| `SSH_PRIVATE_KEY` | Приватный ключ (`~/.ssh/id_ed25519`), целиком |
+| `SSH_HOST` | `168.113.158.146` |
 | `SSH_USER` | `root` |
 | `DEPLOY_PATH` | `/var/www/totimotiki.ru` |
 
-Публичный ключ должен быть в `~/.ssh/authorized_keys` на сервере.
-
-## Nginx на VPS
-
-Файл `/etc/nginx/sites-available/totimotiki.ru`:
-
-```nginx
-server {
-    listen 80;
-    listen [::]:80;
-    server_name totimotiki.ru www.totimotiki.ru;
-
-    root /var/www/totimotiki.ru;
-    index index.html;
-
-    location / {
-        try_files $uri $uri/ /index.html;
-    }
-
-    location ~* \.(js|css|png|jpg|jpeg|gif|svg|ico|webp|woff2?)$ {
-        expires 7d;
-        add_header Cache-Control "public";
-    }
-}
-```
-
-Активация:
+Подключение вручную:
 
 ```bash
-ln -sf /etc/nginx/sites-available/totimotiki.ru /etc/nginx/sites-enabled/
-nginx -t && systemctl reload nginx
+ssh -i ~/.ssh/id_ed25519 root@168.113.158.146
 ```
 
-HTTPS (после того как DNS указывает на сервер):
+## Cloudflare (только DNS)
 
-```bash
-apt install -y certbot python3-certbot-nginx
-certbot --nginx -d totimotiki.ru -d www.totimotiki.ru
-```
+| Тип | Имя | Содержимое | Proxy |
+|-----|-----|------------|-------|
+| A | `@` | `168.113.158.146` | **DNS only** (серое) |
+| A | `www` | `168.113.158.146` | **DNS only** (серое) |
 
-## DNS на reg.ru
-
-Панель: домен **totimotiki.ru** → DNS / управление зоной.
-
-| Тип | Имя | Значение |
-|-----|-----|----------|
-| A | `@` | `31.177.83.170` |
-| A | `www` | `31.177.83.170` |
-
-Либо `www` как CNAME на `totimotiki.ru`.
-
-Удалите конфликтующие записи A/AAAA от парковки reg.ru. TTL можно 300–600 на время переключения.
-
-Проверка:
+Оранжевый Proxied не включать.
 
 ```bash
 dig +short totimotiki.ru A
-curl -I http://totimotiki.ru
+# ожидаем: 168.113.158.146
+```
+
+## Nginx + HTTPS
+
+На сервере уже есть nginx и certbot. Сайт: `/var/www/totimotiki.ru`, конфиг `totimotiki.ru` в sites-enabled.
+
+Выпуск сертификата (когда DNS уже на `168.113.158.146`):
+
+```bash
+ssh -i ~/.ssh/id_ed25519 root@168.113.158.146 \
+  'certbot --nginx -d totimotiki.ru -d www.totimotiki.ru --non-interactive --agree-tos --redirect'
+```
+
+Первичный bootstrap (если сайт ещё не заведён):
+
+```bash
+cd ~/Рабочий\ стол/Projects/totimotiki
+ssh -i ~/.ssh/id_ed25519 root@168.113.158.146 'bash -s' < docs/server-bootstrap.sh
+npm run build
+rsync -az --delete -e "ssh -i ~/.ssh/id_ed25519" dist/ root@168.113.158.146:/var/www/totimotiki.ru/
 ```
 
 ## Локальная разработка

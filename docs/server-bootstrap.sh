@@ -1,14 +1,11 @@
 #!/usr/bin/env bash
-# Запускать на VPS от root после того, как SSH доступен:
-#   ssh -i ~/.ssh/id_ed25519 root@31.177.83.170 'bash -s' < docs/server-bootstrap.sh
+# Тот же VPS, что diabal: root@168.113.158.146
+#   ssh -i ~/.ssh/id_ed25519 root@168.113.158.146 'bash -s' < docs/server-bootstrap.sh
 
 set -euo pipefail
 
 DOMAIN="totimotiki.ru"
 WEB_ROOT="/var/www/${DOMAIN}"
-
-apt-get update
-apt-get install -y nginx rsync
 
 mkdir -p "${WEB_ROOT}"
 chown -R www-data:www-data "${WEB_ROOT}"
@@ -34,11 +31,9 @@ server {
 NGINX
 
 ln -sf "/etc/nginx/sites-available/${DOMAIN}" "/etc/nginx/sites-enabled/${DOMAIN}"
-rm -f /etc/nginx/sites-enabled/default
 
 nginx -t
-systemctl enable nginx
 systemctl reload nginx
 
-echo "OK: nginx готов, корень ${WEB_ROOT}"
-echo "После DNS: certbot --nginx -d ${DOMAIN} -d www.${DOMAIN}"
+echo "OK: nginx на :80, корень ${WEB_ROOT}"
+echo "DNS → 168.113.158.146, затем: certbot --nginx -d ${DOMAIN} -d www.${DOMAIN}"

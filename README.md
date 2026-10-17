@@ -14,7 +14,7 @@ npm run dev
 ## Документация
 
 - [Архитектура](docs/architecture.md)
-- [Деплой, nginx, DNS на reg.ru](docs/deploy.md)
+- [Деплой: Cloudflare DNS + certbot (как diabal)](docs/deploy.md)
 
 ## CI/CD
 

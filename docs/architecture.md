@@ -6,7 +6,8 @@
 
 - Vite (vanilla HTML/CSS/JS)
 - Деплой: GitHub Actions → rsync по SSH на VPS
-- Веб-сервер: nginx на `31.177.83.170`
+- Веб-сервер: тот же VPS, что diabal — `168.113.158.146` (nginx + Let’s Encrypt)
+- DNS: Cloudflare (только DNS, без прокси), как у diabal.ru
 
 ## Структура
 

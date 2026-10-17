@@ -7,11 +7,11 @@ app.innerHTML = `
 
   <header class="site-header">
     <div class="site-header__inner">
-      <a class="logo" href="#top" aria-label="Тотьмотики — наверх">Тотьмотики</a>
+      <a class="logo" href="#top">Тотьмотики</a>
       <nav class="nav" aria-label="Основная навигация">
         <a href="#about">О них</a>
+        <a href="#heroes">Герои</a>
         <a href="#world">Мир</a>
-        <a href="#gallery">Герои</a>
         <a href="#contact" class="nav__cta">Написать</a>
       </nav>
     </div>
@@ -19,79 +19,79 @@ app.innerHTML = `
 
   <main id="top">
     <section class="hero" aria-label="Главный экран">
-      <div class="hero__media" aria-hidden="true">
-        <img class="hero__glow" src="/characters.png" alt="" width="297" height="318" decoding="async" />
+      <div class="hero__stage" aria-hidden="true">
+        <img class="hero__glow" src="/plush-studio.jpg" alt="" decoding="async" />
         <img
-          class="hero__image"
-          src="/characters.png"
+          class="hero__cast"
+          src="/plush-studio.jpg"
           alt=""
-          width="297"
-          height="318"
+          width="815"
+          height="1536"
           decoding="async"
           fetchpriority="high"
         />
-        <div class="hero__wash"></div>
       </div>
       <div class="hero__content">
         <p class="brand">Тотьмотики</p>
-        <h1 class="hero__title">Маленькие добрые существа<br />с большим сердцем</h1>
+        <h1 class="hero__title">Мягкие, уютные,<br />всегда рядом</h1>
         <p class="hero__lead">
-          Мягкие персонажи из войлока и ткани — тихие спутники уюта, заботы и простых радостей.
+          Добрые персонажи из ткани и войлока — простые формы, тёплые цвета и тихая забота.
         </p>
         <div class="hero__actions">
-          <a class="btn btn--primary" href="#gallery">Познакомиться</a>
-          <a class="btn btn--ghost" href="#contact">Связаться</a>
+          <a class="btn btn--primary" href="#heroes">Познакомиться</a>
+          <a class="btn btn--ghost" href="#contact">Написать</a>
         </div>
       </div>
     </section>
 
     <section class="section" id="about">
       <div class="section__inner">
+        <p class="eyebrow">о проекте</p>
         <h2>Кто такие Тотьмотики</h2>
         <p class="section__text">
-          Тотьмотики — черновик мира добрых героев: каждый со своим характером, бантиком,
-          листочком или книжкой. Они не кричат и не спешат — просто рядом, когда нужно тепло.
+          Маленькие существа с розовым носиком и спокойной улыбкой. Их легко представить рядом —
+          на полке, в открытке или в детской истории про тепло и дружбу.
         </p>
       </div>
     </section>
 
-    <section class="section section--alt" id="world">
-      <div class="section__inner">
-        <h2>Их мир</h2>
-        <p class="section__text">
-          Пастельные ткани, заплатки, помпоны и полевые цветы. Здесь живут лунные сновидцы,
-          зелёные хранители сердец и кубики-учёные с круглыми очками.
-        </p>
-        <ul class="traits" role="list">
-          <li>
-            <strong>Доброта</strong>
-            <span>Лица без суеты — две точки глаз и лёгкий румянец.</span>
-          </li>
-          <li>
-            <strong>Ручная работа</strong>
-            <span>Фактуры войлока, швы и узоры, как у любимой игрушки.</span>
-          </li>
-          <li>
-            <strong>Тишина</strong>
-            <span>Истории без шума — про заботу, дружбу и маленькие чудеса.</span>
-          </li>
-        </ul>
-      </div>
-    </section>
-
-    <section class="section" id="gallery">
+    <section class="section section--heroes" id="heroes">
       <div class="section__inner section__inner--wide">
-        <h2>Герои</h2>
+        <p class="eyebrow">герои</p>
+        <h2>Познакомьтесь ближе</h2>
         <p class="section__text">
-          Двадцать характеров на одном полотне. Наведите курсор — кто-то чуть оживает.
+          Фактуры шерпы, вязаный уют, бантики и полевые цветы — каждый со своим характером.
         </p>
-        <figure class="gallery">
+
+        <div class="heroes-grid">
+          <figure class="hero-shot hero-shot--tall">
+            <img src="/plush-studio.jpg" alt="Розовый пушистый Тотьмотик с клубникой" loading="lazy" decoding="async" />
+          </figure>
+          <figure class="hero-shot">
+            <img src="/plush-lavender.jpg" alt="Лавандовый Тотьмотик с букетом" loading="lazy" decoding="async" />
+          </figure>
+          <figure class="hero-shot">
+            <img src="/plush-pink-mustard.jpg" alt="Розовый и горчичный Тотьмотики" loading="lazy" decoding="async" />
+          </figure>
+          <figure class="hero-shot hero-shot--wide">
+            <img src="/plush-cloud.jpg" alt="Облачко — мягкое и уютное" loading="lazy" decoding="async" />
+            <figcaption>Облачко — мягкое, уютное, всегда рядом</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--cast" id="cast">
+      <div class="section__inner section__inner--wide">
+        <p class="eyebrow">семья</p>
+        <h2>Вся компания</h2>
+        <p class="section__text">Двадцать характеров на одном полотне.</p>
+        <figure class="cast">
           <img
-            class="gallery__image"
-            src="/characters.png"
-            alt="Коллекция персонажей Тотьмотики: двадцать мягких героев в ряд"
-            width="297"
-            height="318"
+            src="/characters-sheet.jpg"
+            alt="Коллекция персонажей Тотьмотики"
+            width="806"
+            height="1420"
             loading="lazy"
             decoding="async"
           />
@@ -99,12 +99,27 @@ app.innerHTML = `
       </div>
     </section>
 
+    <section class="section section--world" id="world">
+      <div class="section__inner section__inner--wide">
+        <p class="eyebrow">их мир</p>
+        <h2>Игры, слова и тепло</h2>
+        <p class="section__text">
+          Тотьмотики живут в уютных карточках и маленьких историях — без шума, с заботой о деталях.
+        </p>
+        <div class="cards">
+          <img src="/card-clouds.jpg" alt="Карточка: кружка облачков" loading="lazy" decoding="async" />
+          <img src="/card-eraser.jpg" alt="Карточка: eraser — ластик" loading="lazy" decoding="async" />
+          <img src="/card-ruler.jpg" alt="Карточка: ruler — линейка" loading="lazy" decoding="async" />
+        </div>
+      </div>
+    </section>
+
     <section class="section section--cta" id="contact">
       <div class="section__inner">
+        <p class="eyebrow">связь</p>
         <h2>Напишите нам</h2>
         <p class="section__text">
-          Сайт только начинается. Если Тотьмотики отозвались — оставьте письмо. Текст и разделы
-          будут наполняться дальше.
+          Сайт только начинается. Если Тотьмотики отозвались — будем рады письму.
         </p>
         <a class="btn btn--primary" href="mailto:hello@totimotiki.ru">hello@totimotiki.ru</a>
       </div>
@@ -114,7 +129,7 @@ app.innerHTML = `
   <footer class="site-footer">
     <div class="site-footer__inner">
       <p class="logo logo--footer">Тотьмотики</p>
-      <p class="site-footer__note">© ${new Date().getFullYear()} totimotiki.ru — черновик лендинга</p>
+      <p class="site-footer__note">© ${new Date().getFullYear()} totimotiki.ru</p>
     </div>
   </footer>
 `;
@@ -122,7 +137,7 @@ app.innerHTML = `
 const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 if (!prefersReduced) {
-  const revealItems = app.querySelectorAll('.section, .traits li');
+  const revealItems = app.querySelectorAll('.section, .hero-shot, .cards img');
   revealItems.forEach((el) => el.classList.add('reveal'));
 
   const observer = new IntersectionObserver(
@@ -134,18 +149,17 @@ if (!prefersReduced) {
         }
       });
     },
-    { threshold: 0.16, rootMargin: '0px 0px -8% 0px' },
+    { threshold: 0.12, rootMargin: '0px 0px -6% 0px' },
   );
 
   revealItems.forEach((el) => observer.observe(el));
 }
 
 const header = app.querySelector('.site-header');
-
 window.addEventListener(
   'scroll',
   () => {
-    header.classList.toggle('site-header--solid', window.scrollY > 24);
+    header.classList.toggle('site-header--solid', window.scrollY > 20);
   },
   { passive: true },
 );
